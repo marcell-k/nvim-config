@@ -1,41 +1,69 @@
 local map = vim.keymap.set
 
--- Fast file searching
+-- File searching
 map("n", "<leader>ff", function()
-  Snacks.picker.files()
-end, { desc = "Find Files (Root)" })
+    Snacks.picker.files()
+end, { desc = "Find Files" })
 map("n", "<leader>fr", function()
-  Snacks.picker.recent()
+    Snacks.picker.recent()
 end, { desc = "Recent Files" })
 map("n", "<leader>fg", function()
-  Snacks.picker.git_files()
+    Snacks.picker.git_files()
 end, { desc = "Git Files" })
 map("n", "<leader>sg", function()
-  Snacks.picker.grep()
-end, { desc = "Grep (Root)" })
+    Snacks.picker.grep()
+end, { desc = "Grep" })
+
+-- LazyGit
+map("n", "<leader>gg", function()
+    Snacks.lazygit()
+end, { desc = "LazyGit" })
 
 -- Buffer navigation
 map("n", "<tab>", ":bnext<cr>", { desc = "Next Buffer" })
-map("n", "<S-tab>", ":bprev<cr>", { desc = "Previous Buffer" })
+map("n", "<S-tab>", ":bprev<cr>", { desc = "Prev Buffer" })
 
--- Window navigation (keep only ONE set)
-map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+-- Close buffer without closing the split
+map("n", "<leader>bd", function()
+    local buf = vim.api.nvim_get_current_buf()
+    vim.cmd("bprev")
+    vim.api.nvim_buf_delete(buf, { force = false })
+end, { desc = "Delete Buffer" })
 
--- Create file in current directory
-map("n", "<leader>en", function()
-  vim.ui.input({ prompt = "New file: " }, function(filename)
-    if filename and filename ~= "" then
-      local dir = vim.fn.expand("%:h")
-      local path = dir .. "/" .. filename
-      vim.cmd.edit(path)
-    end
-  end)
-end, { desc = "Create New File in Current Dir" })
+-- Page jump (centered)
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
 
--- Split windows
-map("n", "<leader>sh", ":split<CR>", { desc = "Split Horizontal" })
-map("n", "<leader>sv", ":vsplit<CR>", { desc = "Split Vertical" })
-map("n", "<leader>sc", ":close<CR>", { desc = "Close Window" })
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", { desc = "Window Left" })
+map("n", "<C-j>", "<C-w>j", { desc = "Window Down" })
+map("n", "<C-k>", "<C-w>k", { desc = "Window Up" })
+map("n", "<C-l>", "<C-w>l", { desc = "Window Right" })
+
+-- Window splits
+map("n", "<leader>sh", ":split<cr>", { desc = "Split Horizontal" })
+map("n", "<leader>sv", ":vsplit<cr>", { desc = "Split Vertical" })
+map("n", "<leader>sc", ":close<cr>", { desc = "Close Window" })
+
+-- Move lines (Option+j / Option+k)
+map("n", "∆", "<cmd>m .+1<cr>==", { desc = "Move Line Down" })
+map("i", "∆", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Line Down" })
+map("x", "∆", ":m '>+1<cr>gv=gv", { desc = "Move Selection Down" })
+map("n", "Ż", "<cmd>m .-2<cr>==", { desc = "Move Line Up" })
+map("i", "Ż", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Line Up" })
+map("x", "Ż", ":m '<-2<cr>gv=gv", { desc = "Move Selection Up" })
+
+-- Indent (Option+l / Option+h)
+map("n", "•", ">>", { desc = "Indent" })
+map("n", "ķ", "<<", { desc = "Unindent" })
+map("i", "•", "<C-t>", { desc = "Indent" })
+map("i", "ķ", "<C-d>", { desc = "Unindent" })
+map("x", "•", ">gv", { desc = "Indent" })
+map("x", "ķ", "<gv", { desc = "Unindent" })
+
+-- Delete without clobbering yank register
+map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete (no yank)" })
+
+-- Search stays centered
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")

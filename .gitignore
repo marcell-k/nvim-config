@@ -1,3 +1,4 @@
 .DS_Store
 .lazy.nvtags
 lazy-lock.json # Optional: skip if you want exact plugin parity across devices
+colors/

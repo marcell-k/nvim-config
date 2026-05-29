@@ -1,31 +1,14 @@
 return {
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- Formatters
-        "prettier", -- JS/TS/HTML/CSS formatter
-        "black", -- Python formatter
-        "isort", -- Python import sorter
+    {
+        "mason-org/mason.nvim",
+        opts = {
+            ensure_installed = {
+                -- Formatters
+                "ruff", -- Python linter + formatter
 
-        -- LSP Servers
-        "pyright", -- Python LSP
-        "typescript-language-server", -- TypeScript LSP
-
-        -- Linters
-        "eslint_d", -- JavaScript/TypeScript linter
-        "pylint", -- Python linter
-      },
+                -- LSP Servers
+                "basedpyright",
+            },
+        },
     },
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = {
-        "pyright",
-        "html",
-        "cssls",
-      },
-    },
-  },
 }
