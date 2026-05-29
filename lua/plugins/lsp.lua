@@ -5,6 +5,8 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
+                pyright = { enabled = false },
+
                 basedpyright = {
                     -- 1. Establish the 3.14 baseline properties on startup
                     settings = {
