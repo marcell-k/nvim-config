@@ -1,9 +1,6 @@
 -- Force Neovim's python provider to use a dedicated virtual environment
 vim.g.python3_host_prog = vim.fn.expand("~/.local/share/nvim-venv/bin/python")
-vim.opt.list = false
-vim.opt.listchars = ""
 vim.opt.selection = "inclusive"
-vim.opt.selectmode = ""
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4 -- tab width
@@ -19,7 +16,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.opt.sidescrolloff = 0
+vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
@@ -32,4 +29,10 @@ vim.opt.undofile = true
 vim.diagnostic.config({
     virtual_text = false, -- Hide inline error messages
     signs = false, -- Hide gutter signs
+    underline = true,
+    update_in_insert = false,
 })
+
+vim.opt.splitright = true -- vsplit opens to the right (natural)
+vim.opt.splitbelow = true -- split opens below (natural)
+vim.opt.cursorline = true -- highlight current line (pairs well with kanagawa-dragon)

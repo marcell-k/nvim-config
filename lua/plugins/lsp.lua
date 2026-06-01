@@ -37,19 +37,11 @@ return {
                         end
 
                         -- Safely merge the verified path into the active client configurations
-                        local updated_settings = vim.tbl_deep_extend("force", client.config.settings or {}, {
+                        client.config.settings = vim.tbl_deep_extend("force", client.config.settings or {}, {
                             python = { pythonPath = python_path },
                         })
 
-                        client.config.settings = updated_settings
-                        if client.settings then
-                            client.settings = vim.tbl_deep_extend("force", client.settings, {
-                                python = { pythonPath = python_path },
-                            })
-                        end
-
-                        -- Blast a notification to force the language server to re-scan its environment
-                        client.notify("workspace/didChangeConfiguration", { settings = updated_settings })
+                        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
                     end,
                 },
             },

@@ -63,6 +63,9 @@ map("x", "ķ", "<gv", { desc = "Unindent" })
 
 -- Delete without clobbering yank register
 map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete (no yank)" })
+--
+-- Paste over selection without clobbering yank register
+map("x", "<leader>p", '"_dP', { desc = "Paste (no yank)" })
 
 -- Search stays centered
 map("n", "n", "nzzzv")
@@ -71,3 +74,4 @@ map("n", "N", "Nzzzv")
 -- Remap '4' to go to the end of the line (replacing '$')
 map("n", "4", "$", { desc = "Go to end of line" })
 map("x", "4", "$", { desc = "Go to end of line (Visual)" })
+map("v", "4", "$", { desc = "Go to end of line" })
