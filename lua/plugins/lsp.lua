@@ -9,16 +9,11 @@ return {
 
                 basedpyright = {
                     -- 1. Establish the 3.14 baseline properties on startup
-                    settings = {
-                        python = {
-                            pythonPath = FALLBACK_PYTHON,
-                        },
-                        basedpyright = {
-                            analysis = {
-                                pythonVersion = "3.14",
-                                typeCheckingMode = "basic",
-                                diagnosticMode = "openFilesOnly",
-                            },
+                    basedpyright = {
+                        analysis = {
+                            pythonVersion = "3.14",
+                            typeCheckingMode = "basic",
+                            diagnosticMode = "openFilesOnly",
                         },
                     },
 

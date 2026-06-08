@@ -1,24 +1,5 @@
 local map = vim.keymap.set
 
--- File searching
-map("n", "<leader>ff", function()
-    Snacks.picker.files()
-end, { desc = "Find Files" })
-map("n", "<leader>fr", function()
-    Snacks.picker.recent()
-end, { desc = "Recent Files" })
-map("n", "<leader>fg", function()
-    Snacks.picker.git_files()
-end, { desc = "Git Files" })
-map("n", "<leader>sg", function()
-    Snacks.picker.grep()
-end, { desc = "Grep" })
-
--- LazyGit
-map("n", "<leader>gg", function()
-    Snacks.lazygit()
-end, { desc = "LazyGit" })
-
 -- Buffer navigation
 map("n", "<tab>", ":bnext<cr>", { desc = "Next Buffer" })
 map("n", "<S-tab>", ":bprev<cr>", { desc = "Prev Buffer" })
@@ -39,11 +20,6 @@ map("n", "<C-h>", "<C-w>h", { desc = "Window Left" })
 map("n", "<C-j>", "<C-w>j", { desc = "Window Down" })
 map("n", "<C-k>", "<C-w>k", { desc = "Window Up" })
 map("n", "<C-l>", "<C-w>l", { desc = "Window Right" })
-
--- Window splits
-map("n", "<leader>sh", ":split<cr>", { desc = "Split Horizontal" })
-map("n", "<leader>sv", ":vsplit<cr>", { desc = "Split Vertical" })
-map("n", "<leader>sc", ":close<cr>", { desc = "Close Window" })
 
 -- Move lines (Option+j / Option+k)
 map("n", "∆", "<cmd>m .+1<cr>==", { desc = "Move Line Down" })
@@ -73,7 +49,6 @@ map("n", "N", "Nzzzv")
 
 -- Remap '4' to go to the end of the line (replacing '$')
 map("n", "4", "$", { desc = "Go to end of line" })
-map("x", "4", "$", { desc = "Go to end of line (Visual)" })
 map("v", "4", "$", { desc = "Go to end of line" })
 
 -- Global variable to keep track of our dedicated terminal buffer ID

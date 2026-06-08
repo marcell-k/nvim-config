@@ -26,13 +26,6 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 
-vim.diagnostic.config({
-    virtual_text = false, -- Hide inline error messages
-    signs = false, -- Hide gutter signs
-    underline = true,
-    update_in_insert = false,
-})
-
 vim.opt.splitright = true -- vsplit opens to the right (natural)
 vim.opt.splitbelow = true -- split opens below (natural)
 vim.opt.cursorline = true -- highlight current line (pairs well with kanagawa-dragon)
