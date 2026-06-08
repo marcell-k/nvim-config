@@ -75,3 +75,55 @@ map("n", "N", "Nzzzv")
 map("n", "4", "$", { desc = "Go to end of line" })
 map("x", "4", "$", { desc = "Go to end of line (Visual)" })
 map("v", "4", "$", { desc = "Go to end of line" })
+
+-- Global variable to keep track of our dedicated terminal buffer ID
+local term_buf = nil
+
+map("n", "<leader>tt", function()
+    -- Step 1: If the terminal buffer exists and is currently visible, hide it
+    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+        local term_win = vim.fn.bufwinid(term_buf)
+        if term_win ~= -1 then
+            vim.api.nvim_win_close(term_win, false)
+            return
+        end
+    end
+
+    -- Step 2: Open a clean window split at the bottom
+    vim.cmd("botright split | resize 15")
+    local new_win = vim.api.nvim_get_current_win()
+
+    -- Step 3: If the background terminal buffer is still alive, reload it here
+    if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+        vim.cmd("buffer " .. term_buf)
+    else
+        -- Step 4: Otherwise, create a fresh terminal and capture its unique ID
+        vim.cmd("terminal")
+        term_buf = vim.api.nvim_get_current_buf()
+
+        -- Look for the .venv activation script right in your project root
+        local activate_script = vim.fn.getcwd() .. "/.venv/bin/activate"
+        if vim.fn.filereadable(activate_script) == 1 then
+            local job_id = vim.b.terminal_job_id
+            if job_id then
+                -- Wait 50ms for the terminal process to wire up, then run it
+                vim.defer_fn(function()
+                    vim.fn.chansend(job_id, "source .venv/bin/activate\n")
+                end, 50)
+            end
+        end
+    end
+
+    -- Step 5: Force Neovim to focus on this window and drop into insert mode
+    vim.api.nvim_set_current_win(new_win)
+    vim.cmd("startinsert")
+end, { desc = "Toggle Terminal & Auto-Activate Root .venv" })
+
+map("t", "<leader>tt", function()
+    local current_buf = vim.api.nvim_get_current_buf()
+    local term_win = vim.fn.bufwinid(current_buf)
+    if term_win ~= -1 then
+        vim.cmd("stopinsert")
+        vim.api.nvim_win_close(term_win, false)
+    end
+end, { desc = "Hide Terminal From Inside Insert Mode" })
