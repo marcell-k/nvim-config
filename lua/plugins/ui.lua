@@ -60,47 +60,4 @@ return {
         "LazyVim/LazyVim",
         opts = { colorscheme = "kanagawa-dragon" },
     },
-
-    {
-        "nvim-lualine/lualine.nvim",
-        opts = function(_, opts)
-            opts.options = vim.tbl_extend("force", opts.options or {}, {
-                component_separators = { left = "", right = "" },
-                section_separators = { left = "", right = "" },
-            })
-
-            opts.sections = {
-                lualine_a = {
-                    {
-                        "mode",
-                        fmt = function(s)
-                            return s:sub(1, 1)
-                        end,
-                    },
-                },
-                lualine_b = { { "branch", icon = "" } },
-                lualine_c = {
-                    { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-                    { "filename", path = 1, symbols = { modified = "●", readonly = "", unnamed = "[No Name]" } },
-                },
-                lualine_x = {
-                    { "diff", symbols = { added = " ", modified = " ", removed = " " } },
-                    { "diagnostics", symbols = { error = " ", warn = " ", info = " ", hint = " " } },
-                },
-                lualine_y = {},
-                lualine_z = {},
-            }
-
-            opts.inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
-                lualine_c = { { "filename", path = 1 } },
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {},
-            }
-
-            return opts
-        end,
-    },
 }
