@@ -12,8 +12,20 @@ return {
                     basedpyright = {
                         analysis = {
                             pythonVersion = "3.14",
-                            typeCheckingMode = "basic",
+                            typeCheckingMode = "standard",
                             diagnosticMode = "openFilesOnly",
+                            exclude = {
+                                ".venv",
+                                ".git",
+                                "__pycache__",
+                                ".env",
+                                ".ruff_cache",
+                                ".cache",
+                                "cache",
+                                "data",
+                                "pytest_cache",
+                                "dist",
+                            },
                         },
                     },
 
@@ -39,6 +51,7 @@ return {
                         client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
                     end,
                 },
+                gopls = {},
             },
         },
     },

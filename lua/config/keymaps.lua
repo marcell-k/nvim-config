@@ -48,10 +48,8 @@ map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
 -- Remap '4' to go to the end of the line (replacing '$')
-map("n", "4", "$", { desc = "Go to end of line" })
-map("v", "4", "$", { desc = "Go to end of line" })
+map({ "n", "v", "o" }, "4", "$", { desc = "Go to end of line / operator motion" })
 
--- Global variable to keep track of our dedicated terminal buffer ID
 local term_buf = nil
 
 map("n", "<leader>tt", function()
@@ -102,3 +100,10 @@ map("t", "<leader>tt", function()
         vim.api.nvim_win_close(term_win, false)
     end
 end, { desc = "Hide Terminal From Inside Insert Mode" })
+
+-- Disable arrow keys
+for _, mode in ipairs({ "n", "i", "v", "x" }) do
+    for _, arrow in ipairs({ "<Up>", "<Down>", "<Left>", "<Right>" }) do
+        map(mode, arrow, "<Nop>", { desc = "Disabled - Use hjkl!" })
+    end
+end
