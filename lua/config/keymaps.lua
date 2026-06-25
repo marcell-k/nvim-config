@@ -37,9 +37,6 @@ map("i", "ķ", "<C-d>", { desc = "Unindent" })
 map("x", "•", ">gv", { desc = "Indent" })
 map("x", "ķ", "<gv", { desc = "Unindent" })
 
--- Delete without clobbering yank register
-map({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete (no yank)" })
---
 -- Paste over selection without clobbering yank register
 map("x", "<leader>p", '"_dP', { desc = "Paste (no yank)" })
 
@@ -81,7 +78,7 @@ map("n", "<leader>tt", function()
             if job_id then
                 -- Wait 50ms for the terminal process to wire up, then run it
                 vim.defer_fn(function()
-                    vim.fn.chansend(job_id, "source .venv/bin/activate\n")
+                    --    vim.fn.chansend(job_id, "source .venv/bin/activate\n")
                 end, 50)
             end
         end

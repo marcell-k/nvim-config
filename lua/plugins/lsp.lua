@@ -8,47 +8,42 @@ return {
                 pyright = { enabled = false },
 
                 basedpyright = {
-                    -- 1. Establish the 3.14 baseline properties on startup
-                    basedpyright = {
-                        analysis = {
-                            pythonVersion = "3.14",
-                            typeCheckingMode = "standard",
-                            diagnosticMode = "openFilesOnly",
-                            exclude = {
-                                ".venv",
-                                ".git",
-                                "__pycache__",
-                                ".env",
-                                ".ruff_cache",
-                                ".cache",
-                                "cache",
-                                "data",
-                                "pytest_cache",
-                                "dist",
+                    -- 1. Nest configurations properly under the 'settings' table
+                    settings = {
+                        basedpyright = {
+                            analysis = {
+                                pythonVersion = "3.14",
+                                typeCheckingMode = "standard",
+                                diagnosticMode = "openFilesOnly",
+                                watchFiles = false, -- Crucial: Stops the LSP from choking on .venv file watching
+                                exclude = {
+                                    ".venv",
+                                    ".git",
+                                    "__pycache__",
+                                    ".env",
+                                    ".ruff_cache",
+                                    ".cache",
+                                    "cache",
+                                    "data",
+                                    "pytest_cache",
+                                    "dist",
+                                },
                             },
                         },
                     },
 
-                    -- 2. Force an active configuration sync immediately after boot
-                    on_init = function(client)
-                        local root = client.config.root_dir or vim.uv.cwd()
-                        local python_path = FALLBACK_PYTHON
+                    -- 2. Directly target .venv in the root directory
+                    before_init = function(_, config)
+                        local root = config.root_dir or vim.uv.cwd()
+                        local candidate = root .. "/.venv/bin/python"
 
-                        -- Highly efficient check for local project virtual environments
-                        for _, venv in ipairs({ ".venv", "venv", ".env" }) do
-                            local candidate = root .. "/" .. venv .. "/bin/python"
-                            if vim.uv.fs_stat(candidate) then
-                                python_path = candidate
-                                break
-                            end
-                        end
+                        -- If .venv exists, use it. Otherwise, use your fallback.
+                        local python_path = vim.uv.fs_stat(candidate) and candidate or FALLBACK_PYTHON
 
-                        -- Safely merge the verified path into the active client configurations
-                        client.config.settings = vim.tbl_deep_extend("force", client.config.settings or {}, {
+                        -- Safely inject the path into the initial configurations
+                        config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
                             python = { pythonPath = python_path },
                         })
-
-                        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
                     end,
                 },
                 gopls = {},
